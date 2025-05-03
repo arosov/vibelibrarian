@@ -112,6 +112,8 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "ovh.devcraft.vibe.books"
             packageVersion = "1.0.0"
+            // Explicitly list required JDK modules for jpackage
+            modules("java.desktop", "jdk.crypto.ec") // java.desktop for UI, jdk.crypto.ec often needed by Ktor/Netty
         }
     }
 }
