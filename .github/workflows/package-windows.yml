@@ -35,7 +35,7 @@ jobs:
         # Default path for the MSI installer. Assuming version 1.0.0 based on user input.
         # Note: This might need adjustment if the version changes.
         run: |
-          echo "msi_path=composeApp\build\compose\binaries\main\msi\ovh.devcraft.vibe.books-1.0.0.msi" >> $env:GITHUB_OUTPUT
+          echo "msi_path=composeApp\build\compose\binaries\main\msi\VibeLibrarian-1.0.0.msi" >> $env:GITHUB_OUTPUT
           echo "msi_name=VibeLibrarian-windows-${{ github.run_id }}.msi" >> $env:GITHUB_OUTPUT
         shell: pwsh
 
