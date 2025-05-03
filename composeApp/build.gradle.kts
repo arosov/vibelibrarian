@@ -68,7 +68,7 @@ kotlin {
             implementation(libs.ktor.client.java) // Ktor engine for JVM/Desktop
         }
         wasmJsMain.dependencies {
-            implementation(libs.ktor.client.js) // Ktor engine for WasmJs/Js
+            implementation(libs.ktor.client.wasm.js) // Use the correct Ktor engine for WasmJs
         }
     }
 }
