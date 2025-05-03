@@ -30,18 +30,13 @@ jobs:
         # This task builds the distributable package for the current OS (Windows)
         run: ./gradlew :composeApp:packageDistributionForCurrentOS
 
-      - name: Determine Package Directory and Zip File Name
+      - name: Determine MSI Path and Name
         id: package_info
-        # The default output dir for compose desktop package is build/compose/binaries/main/app
-        # We'll zip the contents of this directory
-        # Use backslashes for Windows paths
+        # Default path for the MSI installer. Assuming version 1.0.0 based on user input.
+        # Note: This might need adjustment if the version changes.
         run: |
-          echo "package_dir=composeApp\build\compose\binaries\main\app" >> $env:GITHUB_OUTPUT
-          echo "zip_name=VibeLibrarian-windows-${{ github.run_id }}.zip" >> $env:GITHUB_OUTPUT
-        shell: pwsh
-
-      - name: Zip the application
-        run: Compress-Archive -Path ${{ steps.package_info.outputs.package_dir }}\* -DestinationPath ${{ steps.package_info.outputs.zip_name }}
+          echo "msi_path=composeApp\build\compose\binaries\main\msi\ovh.devcraft.vibe.books-1.0.0.msi" >> $env:GITHUB_OUTPUT
+          echo "msi_name=VibeLibrarian-windows-${{ github.run_id }}.msi" >> $env:GITHUB_OUTPUT
         shell: pwsh
 
       - name: Create Draft Release
@@ -55,12 +50,12 @@ jobs:
           draft: true
           prerelease: false
 
-      - name: Upload Release Asset (Zip)
+      - name: Upload Release Asset (MSI)
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./${{ steps.package_info.outputs.zip_name }}
-          asset_name: ${{ steps.package_info.outputs.zip_name }}
-          asset_content_type: application/zip
+          asset_path: ${{ steps.package_info.outputs.msi_path }}
+          asset_name: ${{ steps.package_info.outputs.msi_name }}
+          asset_content_type: application/x-msi
