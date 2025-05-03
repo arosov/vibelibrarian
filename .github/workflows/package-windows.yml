@@ -34,8 +34,9 @@ jobs:
         id: package_info
         # The default output dir for compose desktop package is build/compose/binaries/main/app
         # We'll zip the contents of this directory
+        # Use backslashes for Windows paths
         run: |
-          echo "package_dir=composeApp/build/compose/binaries/main/app" >> $env:GITHUB_OUTPUT
+          echo "package_dir=composeApp\build\compose\binaries\main\app" >> $env:GITHUB_OUTPUT
           echo "zip_name=VibeLibrarian-windows-${{ github.run_id }}.zip" >> $env:GITHUB_OUTPUT
         shell: pwsh
 
