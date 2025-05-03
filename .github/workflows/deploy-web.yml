@@ -46,7 +46,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           # Upload the contents of the wasmJs production build directory
-          path: 'composeApp/build/dist/wasmJs/productionExecutable'
+          path: 'composeApp/build/kotlin-webpack/wasmJs/productionExecutable'
 
       - name: Deploy to GitHub Pages
         id: deployment
