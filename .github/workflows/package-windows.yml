@@ -1,0 +1,65 @@
+# .github/workflows/package-windows.yml
+name: Package Windows App
+
+# Allow manual triggering of this workflow
+on:
+  workflow_dispatch:
+
+jobs:
+  package-windows:
+    name: Build and Package Windows App
+    runs-on: windows-latest # Use a Windows runner
+
+    permissions:
+      contents: write # Needed to create releases and upload assets
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Build Windows Distribution Package
+        # This task builds the distributable package for the current OS (Windows)
+        run: ./gradlew :composeApp:packageDistributionForCurrentOS
+
+      - name: Determine Package Directory and Zip File Name
+        id: package_info
+        # The default output dir for compose desktop package is build/compose/binaries/main/app
+        # We'll zip the contents of this directory
+        run: |
+          echo "package_dir=composeApp/build/compose/binaries/main/app" >> $env:GITHUB_OUTPUT
+          echo "zip_name=VibeLibrarian-windows-${{ github.run_id }}.zip" >> $env:GITHUB_OUTPUT
+        shell: pwsh
+
+      - name: Zip the application
+        run: Compress-Archive -Path ${{ steps.package_info.outputs.package_dir }}\* -DestinationPath ${{ steps.package_info.outputs.zip_name }}
+        shell: pwsh
+
+      - name: Create Draft Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: win-build-${{ github.run_id }}
+          release_name: Windows Build ${{ github.run_id }}
+          draft: true
+          prerelease: false
+
+      - name: Upload Release Asset (Zip)
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./${{ steps.package_info.outputs.zip_name }}
+          asset_name: ${{ steps.package_info.outputs.zip_name }}
+          asset_content_type: application/zip
