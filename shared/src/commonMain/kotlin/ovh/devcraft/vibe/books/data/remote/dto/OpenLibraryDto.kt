@@ -4,10 +4,12 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 // Using Map because the top-level key is dynamic (e.g., "ISBN:9780140328721")
+// Represents the structure returned by /api/books?bibkeys=ISBN:<isbn>&format=json&jscmd=data
 typealias OpenLibrarySearchResponse = Map<String, OpenLibraryBookDto>
 
 @Serializable
 data class OpenLibraryBookDto(
+    @SerialName("bib_key") val bibKey: String? = null, // e.g., "ISBN:9780140328721"
     val title: String? = null,
     val authors: List<AuthorDto>? = null,
     val publishers: List<PublisherDto>? = null,

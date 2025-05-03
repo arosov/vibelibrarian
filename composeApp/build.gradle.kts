@@ -47,11 +47,14 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.ktor.client.android) // Ktor engine for Android
         }
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
+            // implementation(compose.material3) // Consider Material 3 later
+            // implementation(compose.material.icons.core)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
@@ -61,7 +64,11 @@ kotlin {
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
-            implementation(libs.kotlinx.coroutines.swing)
+            implementation(libs.kotlinx.coroutines.swing) // For Desktop main thread dispatcher
+            implementation(libs.ktor.client.java) // Ktor engine for JVM/Desktop
+        }
+        wasmJsMain.dependencies {
+            implementation(libs.ktor.client.js) // Ktor engine for WasmJs/Js
         }
     }
 }

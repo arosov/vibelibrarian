@@ -1,6 +1,7 @@
 package ovh.devcraft.vibe.books.data.remote
 
 import io.ktor.client.*
+import io.ktor.client.plugins.* // For DefaultRequest
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
 import io.ktor.serialization.kotlinx.json.*
@@ -11,7 +12,7 @@ import kotlinx.serialization.json.Json
  */
 object KtorClient {
     val instance: HttpClient by lazy {
-        HttpClient { // Use platform-specific engine automatically
+        HttpClient { // Platform-specific engines are added in composeApp/build.gradle.kts
             // Configure JSON serialization
             install(ContentNegotiation) {
                 json(Json {
@@ -28,7 +29,7 @@ object KtorClient {
             }
 
             // Default request configuration (e.g., base URL, headers) can be added here
-            // install(DefaultRequest) {
+            // install(DefaultRequest) { // Example: Add common headers or URL parts
             //     header(HttpHeaders.ContentType, ContentType.Application.Json)
             // }
         }

@@ -1,6 +1,6 @@
 package ovh.devcraft.vibe.books.presentation
 
-import ovh.devcraft.vibe.books.domain.model.Book
+import ovh.devcraft.vibe.books.domain.model.Book // Import the domain model
 
 /**
  * Represents the state of the Book Search UI.

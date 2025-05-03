@@ -1,12 +1,12 @@
 package ovh.devcraft.vibe.books.presentation
 
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
+import kotlinx.coroutines.Dispatchers // Import Dispatchers
+import kotlinx.coroutines.IO // Import IO dispatcher
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.asStateFlow // Import asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ovh.devcraft.vibe.books.domain.usecase.GetBookDetailsUseCase
@@ -20,10 +20,9 @@ class BookSearchViewModel(
     private val getBookDetailsUseCase: GetBookDetailsUseCase
 ) {
     // Create a CoroutineScope for launching background tasks.
-    // SupervisorJob ensures that if one child coroutine fails, others are not cancelled.
-    // Dispatchers.Default is suitable for CPU-bound work, but IO might be better for network calls.
-    // Consider injecting the scope or using a dedicated lifecycle-aware scope library later.
-    private val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.IO) // Use IO dispatcher for network
+    // SupervisorJob prevents failure of one child from cancelling the scope.
+    // Dispatchers.IO is generally appropriate for network/disk operations.
+    private val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     private val _uiState = MutableStateFlow(BookSearchState())
     val uiState: StateFlow<BookSearchState> = _uiState.asStateFlow()
@@ -32,7 +31,7 @@ class BookSearchViewModel(
      * Updates the ISBN input text in the state.
      */
     fun onIsbnInputChange(newIsbn: String) {
-        _uiState.update { it.copy(isbnInput = newIsbn, errorMessage = null) } // Clear error on new input
+        _uiState.update { it.copy(isbnInput = newIsbn, errorMessage = null, book = null) } // Clear error and previous book on new input
     }
 
     /**
@@ -41,7 +40,7 @@ class BookSearchViewModel(
     fun searchBook() {
         val isbn = _uiState.value.isbnInput.trim()
         if (isbn.isBlank()) {
-            _uiState.update { it.copy(errorMessage = "Please enter an ISBN.") }
+            _uiState.update { it.copy(errorMessage = "Please enter an ISBN.", isLoading = false) }
             return
         }
 
@@ -69,7 +68,7 @@ class BookSearchViewModel(
     }
 
     // Optional: Add a function to clear the scope when the ViewModel is no longer needed.
-    // This is important in Android, less critical in Desktop/Wasm but good practice.
+    // In a real app with lifecycle management (e.g., using moko-mvvm), this would be handled automatically.
     // fun clear() {
     //     viewModelScope.cancel() // Cancel all coroutines started by this scope
     // }

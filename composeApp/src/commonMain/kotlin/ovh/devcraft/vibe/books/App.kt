@@ -1,15 +1,16 @@
 package ovh.devcraft.vibe.books
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.Button // Explicit imports
+import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import ovh.devcraft.vibe.books.data.repository.BookRepositoryImpl
-import ovh.devcraft.vibe.books.domain.model.Book
-import ovh.devcraft.vibe.books.domain.usecase.GetBookDetailsUseCase
-import ovh.devcraft.vibe.books.presentation.BookSearchViewModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
@@ -17,13 +18,18 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 // In a larger app, use a DI framework like Koin or Kodein
 private fun createViewModel(): BookSearchViewModel {
     val bookRepository = BookRepositoryImpl()
-    val getBookDetailsUseCase = GetBookDetailsUseCase(bookRepository)
+    val getBookDetailsUseCase = GetBookDetailsUseCase(bookRepository) // Corrected instantiation
     return BookSearchViewModel(getBookDetailsUseCase)
 }
 
 @Composable
 @Preview
 fun App(viewModel: BookSearchViewModel = remember { createViewModel() }) {
+    // Import necessary classes within the composable scope if not already imported
+    // import ovh.devcraft.vibe.books.data.repository.BookRepositoryImpl
+    // import ovh.devcraft.vibe.books.domain.usecase.GetBookDetailsUseCase
+    // import ovh.devcraft.vibe.books.presentation.BookSearchViewModel
+
     MaterialTheme {
         val state by viewModel.uiState.collectAsState()
 
@@ -43,7 +49,7 @@ fun App(viewModel: BookSearchViewModel = remember { createViewModel() }) {
                 label = { Text("Enter ISBN") },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
-                isError = state.errorMessage?.contains("ISBN", ignoreCase = true) == true // Highlight if ISBN error
+                isError = state.errorMessage != null // Highlight field if any error exists
             )
 
             // Search Button
@@ -79,6 +85,7 @@ fun App(viewModel: BookSearchViewModel = remember { createViewModel() }) {
 }
 
 @Composable
+@Preview // Add preview for the details view
 fun BookDetailsView(book: Book) {
     Card(modifier = Modifier.fillMaxWidth().padding(top = 16.dp), elevation = 4.dp) {
         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {

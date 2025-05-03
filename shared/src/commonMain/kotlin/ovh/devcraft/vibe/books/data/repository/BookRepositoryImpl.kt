@@ -1,6 +1,5 @@
 package ovh.devcraft.vibe.books.data.repository
 
-import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import ovh.devcraft.vibe.books.data.remote.KtorClient
@@ -8,6 +7,7 @@ import ovh.devcraft.vibe.books.data.remote.dto.OpenLibraryBookDto
 import ovh.devcraft.vibe.books.data.remote.dto.OpenLibrarySearchResponse
 import ovh.devcraft.vibe.books.domain.model.Book
 import ovh.devcraft.vibe.books.domain.repository.BookRepository
+import io.ktor.client.call.body // Extension function for body deserialization
 import kotlin.Result // Ensure using kotlin.Result
 
 /**
@@ -16,13 +16,14 @@ import kotlin.Result // Ensure using kotlin.Result
 class BookRepositoryImpl : BookRepository {
 
     private val client = KtorClient.instance
-    private val baseUrl = "https://openlibrary.org/api/books"
+    private val baseUrl = "https://openlibrary.org" // Base URL for Open Library
 
     override suspend fun getBookByIsbn(isbn: String): Result<Book> {
         val bibKey = "ISBN:$isbn"
-        return try {
+        return try { // Using runCatching is often cleaner for wrapping external calls
             val response: OpenLibrarySearchResponse = client.get(baseUrl) {
                 url {
+                    appendPathSegments("api", "books") // Build path safely
                     parameters.append("bibkeys", bibKey)
                     parameters.append("format", "json")
                     parameters.append("jscmd", "data") // Request detailed data
@@ -42,7 +43,7 @@ class BookRepositoryImpl : BookRepository {
             }
         } catch (e: Exception) {
             // Handle network errors, serialization errors, etc.
-            // Log the exception e
+            // TODO: Replace println with a proper logging framework
             println("Error fetching book data: ${e.message}") // Replace with proper logging
             Result.failure(e)
         }
