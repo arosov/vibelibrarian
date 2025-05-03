@@ -12,6 +12,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import ovh.devcraft.vibe.books.data.repository.BookRepositoryImpl
+import ovh.devcraft.vibe.books.domain.model.Book
+import ovh.devcraft.vibe.books.domain.usecase.GetBookDetailsUseCase
+import ovh.devcraft.vibe.books.presentation.BookSearchViewModel
 
 
 // Simple manual DI - instantiate dependencies here

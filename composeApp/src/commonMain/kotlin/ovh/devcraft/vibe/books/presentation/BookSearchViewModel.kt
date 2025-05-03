@@ -2,7 +2,6 @@ package ovh.devcraft.vibe.books.presentation
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers // Import Dispatchers
-import kotlinx.coroutines.IO // Import IO dispatcher
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -21,8 +20,7 @@ class BookSearchViewModel(
 ) {
     // Create a CoroutineScope for launching background tasks.
     // SupervisorJob prevents failure of one child from cancelling the scope.
-    // Dispatchers.IO is generally appropriate for network/disk operations.
-    private val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    private val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
     private val _uiState = MutableStateFlow(BookSearchState())
     val uiState: StateFlow<BookSearchState> = _uiState.asStateFlow()

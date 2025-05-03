@@ -15,7 +15,8 @@ compose-multiplatform = "1.7.3"
 junit = "4.13.2"
 kotlin = "2.1.20"
 kotlinx-coroutines = "1.10.2"
-ktor = "3.1.3" # Use Ktor 3.x for Wasm support
+ktor = "3.1.2" # Use Ktor 3.x for Wasm support
+ktor-wasm = "3.0.0-wasm2" # Use Ktor 3.x for Wasm support
 logback = "1.5.18"
 
 [libraries]
@@ -43,7 +44,7 @@ ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
 ktor-client-java = { module = "io.ktor:ktor-client-java", version.ref = "ktor" } # For JVM/Desktop
-ktor-client-wasm-js = { module = "io.ktor:ktor-client-wasm-js", version.ref = "ktor" } # Ktor client engine for WasmJs target
+ktor-client-wasm-js = { module = "io.ktor:ktor-io-wasm-js", version.ref = "ktor-wasm" } # Ktor client engine for WasmJs target
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
