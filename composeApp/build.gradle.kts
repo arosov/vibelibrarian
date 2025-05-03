@@ -65,7 +65,7 @@ kotlin {
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing) // For Desktop main thread dispatcher
-            implementation(libs.ktor.client.java) // Ktor engine for JVM/Desktop
+            implementation(libs.ktor.client.cio) // Ktor engine for JVM/Desktop
         }
         wasmJsMain.dependencies {
             implementation(libs.ktor.client.wasm.js) // Use the correct Ktor engine for WasmJs
