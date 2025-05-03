@@ -15,6 +15,27 @@ Aider failed to isolate the feature in a dedicated module but that's not too bad
 
 That wasm hint actually bit me in the ass a bit due to bad wasm support in Ktor (for now).
 
+## Distribution
+
+Quite a few minor struggles on that front but AI still helps and does most of the job.
+
+The "take a screenshot of an error and paste it to the AI" was quite handy here.
+
+### Web
+
+https://arosov.github.io/vibelibrarian/
+
+The issue for that one was a simple mistake in the gradle task to run to actually have something that
+can be distributed, so not bad.
+
+## Windows
+
+First msi package generated installs successfully but JVM fails to start properly at runtime.
+
+## Android
+
+To be tested
+
 # Default KMP Readme
 This is a Kotlin Multiplatform project targeting Android, Web, Desktop, Server.
 
