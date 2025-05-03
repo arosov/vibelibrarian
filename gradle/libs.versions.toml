@@ -44,6 +44,7 @@ ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
 ktor-client-java = { module = "io.ktor:ktor-client-java", version.ref = "ktor" } # For JVM/Desktop
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" } # CIO engine for JVM/Desktop
 ktor-client-wasm-js = { module = "io.ktor:ktor-io-wasm-js", version.ref = "ktor-wasm" } # Ktor client engine for WasmJs target
 
 [plugins]
