@@ -19,6 +19,8 @@ That wasm hint actually bit me in the ass a bit due to bad wasm support in Ktor 
 
 Quite a few minor struggles on that front but AI still helps and does most of the job.
 
+I absolutely spent more time on this than on the actual app.
+
 The "take a screenshot of an error and paste it to the AI" was quite handy here.
 
 ### Web
