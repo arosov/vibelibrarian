@@ -109,11 +109,17 @@ compose.desktop {
         mainClass = "ovh.devcraft.vibe.books.MainKt"
 
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "ovh.devcraft.vibe.books"
+            targetFormats(TargetFormat.Msi)
+            packageName = "VibeLibrarian"
             packageVersion = "1.0.0"
-            // Explicitly list required JDK modules for jpackage
-            modules("java.desktop", "jdk.crypto.ec") // java.desktop for UI, jdk.crypto.ec often needed by Ktor/Netty
+            //modules("java.instrument", "java.management", "jdk.unsupported")
+            windows {
+                perUserInstall = true
+                shortcut = true
+                menu = true
+                menuGroup = "VibeLibrarian"
+                upgradeUuid = "55add151-10ec-49d1-87a7-4bdde80d9a7d"
+            }
         }
     }
 }
