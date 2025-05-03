@@ -37,7 +37,9 @@ jobs:
 
       - name: Build WasmJs Distribution
         # This task builds the production distribution for the wasmJs target
-        run: ./gradlew :composeApp:wasmJsBrowserProductionWebpack
+        run: |
+          ./gradlew :composeApp:wasmJsBrowserProductionWebpack
+          ./gradlew :composeApp:wasmJsBrowserDistribution
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -46,7 +48,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           # Upload the contents of the wasmJs production build directory
-          path: 'composeApp/build/kotlin-webpack/wasmJs/productionExecutable'
+          path: './composeApp/build/dist/wasmJs/productionExecutable'
 
       - name: Deploy to GitHub Pages
         id: deployment
