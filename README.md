@@ -32,6 +32,11 @@ can be distributed, so not bad.
 
 First msi package generated installs successfully but JVM fails to start properly at runtime.
 
+Fixed by changing Ktor engine to CIO, not exactly sure I understand the initial issue.
+
+Minor adjustments done manually to have a nicer Windows install that doesn't use the package name
+as a user-visible name.
+
 ## Android
 
 To be tested
